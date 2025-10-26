@@ -41,4 +41,3 @@ RUN echo "=== VERIFICANDO BINÁRIOS ===" && \
     echo "=== VERIFICAÇÃO CONCLUÍDA ==="
 
 USER node
-    echo "=== VERIFI
