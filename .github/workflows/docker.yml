@@ -27,5 +27,5 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/n8n-langchain:latest
+        tags: ${{ secrets.DOCKER_VAANERODRIGUES }}/n8n-langchain:latest
         platforms: linux/amd64,linux/arm64
