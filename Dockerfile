@@ -1,17 +1,21 @@
-# Use a imagem oficial do n8n como base
 FROM docker.n8n.io/n8nio/n8n:latest
 
-# Mude para o usuário root temporariamente para instalar pacotes do sistema
 USER root
 
-# A imagem oficial do n8n é baseada em Alpine Linux, então usamos 'apk'
-# Instale as dependências de compilação necessárias para módulos nativos (como sqlite3)
+# Instalar dependências
 RUN apk add --no-cache python3 make g++
 
-# IMPORTANTE: Instale o pacote como root (não como usuário node)
-RUN npm install -g @n8n/n8n-nodes-langchain
+# Remover cópias duplicadas da imagem base
+RUN rm -rf /usr/local/lib/node_modules/n8n/node_modules/@n8n/n8n-nodes-langchain || true
+RUN rm -rf /usr/local/lib/node_modules/n8n/node_modules/@devlikeapro || true
 
-# DEPOIS da instalação, volte para o usuário 'node' (o usuário padrão do n8n para segurança)
+# Instalar AMBOS os pacotes customizados
+RUN npm install -g @n8n/n8n-nodes-langchain @devlikeapro/n8n-nodes-chatwoot
+
+# Verificação
+RUN echo "=== VERIFICANDO INSTALAÇÕES ===" && \
+    npm list -g @n8n/n8n-nodes-langchain && \
+    npm list -g @devlikeapro/n8n-nodes-chatwoot && \
+    echo "=== FIM VERIFICAÇÃO ==="
+
 USER node
-
-# O contêiner n8n será iniciado com o comando padrão da imagem base
