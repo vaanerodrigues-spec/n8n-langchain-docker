@@ -8,11 +8,10 @@ USER root
 # Instale as dependências de compilação necessárias para módulos nativos (como sqlite3)
 RUN apk add --no-cache python3 make g++
 
-# Volte para o usuário 'node' (o usuário padrão do n8n para segurança)
-USER node
-
-# Instale o pacote customizado n8n-nodes-langchain globalmente
-# O n8n vai detectar pacotes instalados globalmente.
+# IMPORTANTE: Instale o pacote como root (não como usuário node)
 RUN npm install -g @n8n/n8n-nodes-langchain
+
+# DEPOIS da instalação, volte para o usuário 'node' (o usuário padrão do n8n para segurança)
+USER node
 
 # O contêiner n8n será iniciado com o comando padrão da imagem base
